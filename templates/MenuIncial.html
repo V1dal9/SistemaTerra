@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <body>
+      <header id="header">
+          <nav class="nav">
+              <button class="toggle-menu">
+                  <span></span>
+              </button>
+          </nav>
+      </header>
+      <div id="menu">
+          <nav class="main-nav">
+              <ul>
+                  <li>
+                      <a href="http://127.0.0.1:5000/home">
+                          Verificar Solo
+                      </a>
+                  </li>
+                   <li>
+                      <a href="http://127.0.0.1:5000/homogénio">
+                          Solo Homogéneo
+                      </a>
+                  </li>
+                  <li>
+                      <a href="http://127.0.0.1:5000/verTabela">
+                          Ver Tabela
+                      </a>
+                  </li>
+              </ul>
+          </nav>
+      </div>
+      <div>
+        <h1 class="title">Sistema de Terra</h1>
+      </div>
+      <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+      <script>
+          $('.toggle-menu').click(function(){
+              $(this).toggleClass('active');
+              $('#menu').toggleClass('open');
+          });
+      </script>
+      </body>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Montserrat:300,400,500,700);
+        body {
+            font-family: Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif;
+            background: radial-gradient(circle, #322538, #1f1f1f);
+            font-size: 13px;
+        }
+        #header {
+            padding: 2rem;
+        }
+        :root {
+            --menu-bg: #DE4152;
+            --menu-color: #ffffff;
+            --menu-font-size: 2.5rem;
+            --menu-zindex: 1100;
+            --hamburger-color: #fff;
+            --hamburger-width: 50px;
+            --hamburger-height: 50px;
+            --hamburger-zindex: calc(var(--menu-zindex) + 10);
+        }
+        #menu {
+            background: var(--menu-bg);
+            height: 100%;
+            left: 0;
+            opacity: 0;
+            overflow: hidden;
+            position: fixed;
+            text-align: center;
+            top: 0;
+            transition: all 0.7s ease-in-out;
+            /* For some sweet fadez */
+            visibility: hidden;
+            width: 100%;
+            z-index: var(--menu-zindex);
+        }
+        .title {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 80vh;
+            color: white;
+            font-size: 60px;
+            text-align: center;
+        }
+        #menu.open {
+            opacity: 1;
+            visibility: visible;
+
+            @for $i from 1 through 10 {
+                li:nth-child(#{$i}) {
+                    animation-delay: calc(#{$i} * 0.05s);
+                }
+            }
+            li {
+                animation-duration: 1.0s;
+                animation-fill-mode: both;
+                animation-name: fadeInUp;
+            }
+        }
+        ul:hover a {
+            opacity: 0.5;
+        }
+        ul a {
+            -webkit-transform: translateZ(0);
+            transition: opacity 0.3s ease-in-out;
+        }
+        ul a:hover {
+            opacity: 1;
+        }
+        .main-nav {
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .main-nav ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .main-nav a {
+            color: var(--menu-color);
+            display: block;
+            font-size: var(--menu-font-size);
+            font-weight: bold;
+            padding: 1rem 1rem;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .main-nav a:first-child {
+            padding-top: 0;
+        }
+        .toggle-menu {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            display: inline-block;
+            float: right;
+            height: var(--hamburger-height);
+            outline: none;
+            padding: 0;
+            pointer-events: initial;
+            position: relative;
+            vertical-align: middle;
+            width: var(--hamburger-width);
+            z-index: var(--hamburger-zindex);
+        }
+        .toggle-menu span {
+            background-color: var(--hamburger-color);
+            content: "";
+            display: block;
+            height: 2px;
+            left: calc(50% - 13px);
+            position: absolute;
+            top: calc(50% - 1px);
+            transform-origin: 50% 50%;
+            transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out, transform 0.2s linear;
+            width: 26px;
+        }
+        .toggle-menu span:before,
+        .toggle-menu span:after {
+            background-color: var(--hamburger-color);
+            content: "";
+            display: block;
+            height: 2px;
+            position: absolute;
+            transform-origin: 50% 50%;
+            transition: background-color 0.2s ease-in-out, top 0.2s 0.2s ease-out, transform 0.2s linear;
+            width: 26px;
+        }
+        .toggle-menu span:before {
+            top: 7px;
+        }
+        .toggle-menu span:after {
+            top: -7px;
+        }
+        .toggle-menu.active span {
+            background-color: transparent;
+            transition: background 0.2s ease-out;
+        }
+        .toggle-menu.active span:before,
+        .toggle-menu.active span:after {
+            transition: top 0.2s ease-out, transform 0.2s 0.2s ease-out;
+        }
+        .toggle-menu.active span:before {
+            top: 0;
+            transform: rotate3d(0, 0, 1, -45deg);
+        }
+        .toggle-menu.active span:after {
+            top: 0;
+            transform: rotate3d(0, 0, 1, 45deg);
+        }
+    </style>
+</head>
+</html>

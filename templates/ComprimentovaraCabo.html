@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+</head>
+<body>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <ul class="menu">
+
+    <li title="home"><a href="#" class="menu-button home">menu</a></li>
+  </ul>
+  <ul class="menu-bar">
+      <li><a href="http://127.0.0.1:5000/" class="menu-button">Menu</a></li>
+      <li><a href="http://127.0.0.1:5000/homogénio">Solo Homogénio</a></li>
+      <li><a href="http://127.0.0.1:5000/home">Verificar Solo</a></li>
+  </ul>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      $(document).ready(function(){
+        $(".menu-button").click(function(){
+            $(".menu-bar").toggleClass("open");
+        });
+    });
+  </script>
+<div class="main-wrapper">
+  <div class="form-wrapper">
+    <form action="/calculo1" method="POST" onsubmit="return validarForm()" style="margin:40px">
+      <p>{{texto}} </p>
+      <p>{{texto2}} </p>
+      <label style="font-size:30px; margin-top: 30px;" class="form-label">
+      Qual a Geometria que pretende?</label>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input
+            class="input-radio"
+            type="radio"
+            name="tipo"
+            value="vara"
+            onclick="mostrarVaraDiv()"
+          />
+          vara
+          <span class="radio-checkmark"></span>
+        </label>
+      </div>
+      <div id="vara-div" style="display: none; margin-top:20px;" class="numb-input">
+        <label for="distancia"  class="form-label"> Comprimento </label>
+        <input
+          type="text"
+          name="distanciaVaras"
+          id="distancia"
+          placeholder="Indique o comprimento da vara em metros"
+          class="form-input"
+        />
+      </div>
+      <div class="radio-group">
+        <label class="radio-label">
+          <input
+             class="input-radio"
+             type="radio"
+             name="tipo"
+             value="cabo"
+             onclick="mostrarCaboDiv()"
+          />
+          cabo
+          <span class="radio-checkmark"></span>
+        </label>
+      </div>
+
+      <div id="cabo-div" style="display: none; margin-top:20px;">
+        <div class="input-group numb-input" >
+          <label for="RaioInterno" class="form-label"> Raio Interno </label>
+          <input
+            type="text"
+            name="raioInterno"
+            id="RaioInterno"
+            placeholder="Raio Interno em metros"
+            class="form-input"
+          />
+        </div>
+
+        <div class="input-group numb-input">
+          <label for="RaioExterno" class="form-label"> Raio Externo </label>
+          <input
+            type="text"
+            name="raioExterno"
+            id="RaioExterno"
+            placeholder="Raio Externo em metros"
+            class="form-input"
+          />
+        </div>
+        <div class="input-group numb-input">
+          <label for="resistividadecabo" class="form-label"> Resistividade do Condutor </label>
+          <input
+            type="text"
+            name="resistividadecabo"
+            id="resistividadecabo"
+            placeholder="Resistividade do condutor em ohms por metros"
+            class="form-input"
+          />
+        </div>
+      </div>
+      <script>
+         function mostrarVaraDiv() {
+          document.getElementById('cabo-div').style.display = 'none';
+          document.getElementById('vara-div').style.display = 'block';
+
+        }
+
+        function mostrarCaboDiv() {
+          document.getElementById('vara-div').style.display = 'none';
+          document.getElementById('cabo-div').style.display = 'block';
+        }
+      </script>
+      <script>
+        function validarForm() {
+          var radioButtons = document.getElementsByName("tipo");
+          var radioButtonSelecionado = false;
+          var input = document.querySelectorAll('input[type="text"]');
+          //realizo o ciclo para verificar todos os inputs
+          //mas apenas quero verificar se um está selecionado
+          for (var i = 0; i < radioButtons.length; i++) {
+            if (radioButtons[i].checked) {
+              radioButtonSelecionado = true;
+              break;
+            }
+          }
+          // condição boleana se este for falso
+          if (!radioButtonSelecionado) {
+            alert("Por favor, selecione uma das opções.");
+            return false;
+          }
+          // Verificar qual é opção selecionada antes de fazer a validação
+          //vara selecionada
+          if (radioButtons[0].checked) {
+            // varificar se a opção vara está selecionada e se o campo distancia está preenchido
+            var distanciaVaras = document.getElementById("distancia").value;
+            // se não estiver preenchido
+            if (!distanciaVaras) {
+              alert("Por favor, preencha o comprimento da vara.");
+              return false;
+            }
+          //cabo selecionada
+          } else if (radioButtons[1].checked) {
+
+            //verificar os campos dessa opção se estão preenchidos
+            var raioInterno = document.getElementById("RaioInterno").value;
+            var raioExterno = document.getElementById("RaioExterno").value;
+            var resistividadecabo = document.getElementById("resistividadecabo").value;
+            //Se não estiverem preenchidos
+            if (!raioInterno || !raioExterno || !resistividadecabo) {
+              alert("Por favor, preencha todos os campos para a opção cabo.");
+              return false;
+            }
+          }
+          return true;
+        }
+      </script>
+      <button type="Calcular" class="btn">Calcular</button>
+    </form>
+  </div>
+</div>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+  }
+  .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+  }
+
+  /*  bolinha do rádio quando a opção "vara" estiver selecionada */
+  .input-radio[name="tipo"][value="vara"]:checked ~ .radio-checkmark {
+    background-color: black;
+  }
+
+  /*  bolinha do rádio quando a opção "cabo" estiver selecionada */
+  .input-radio[name="tipo"][value="cabo"]:checked ~ .radio-checkmark{
+    background-color: black;
+  }
+  .main-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px;
+  }
+
+  .form-wrapper {
+    margin: 0 auto;
+    max-width: 570px;
+    width: 100%;
+    background: white;
+    padding: 40px;
+  }
+
+  .form-img {
+    margin-bottom: 45px;
+  }
+
+  .input-group {
+    margin-bottom: 18px;
+  }
+
+  .form-select {
+    width: 100%;
+    padding: 12px 22px;
+    border-radius: 5px;
+    border: 1px solid #dde3ec;
+    background: #ffffff;
+    font-size: 16px;
+    color: #536387;
+    outline: none;
+    resize: none;
+  }
+
+  .input-radio-wrapper {
+    margin-bottom: 25px;
+  }
+  .radio-flex {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .radio-label {
+    font-size: 14px;
+    line-height: 24px;
+    color: #07074d;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .input-radio {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .radio-checkmark {
+    position: absolute;
+    top: -1px;
+    left: 0;
+    height: 18px;
+    width: 18px;
+    background-color: #ffffff;
+    border: 1px solid #dde3ec;
+    border-radius: 50%;
+  }
+  .radio-label
+    .formbold-input-radio:checked
+    ~ .formbold-radio-checkmark {
+    background-color: #267fdd;
+  }
+  .radio-checkmark:after {
+    content: '';
+    position: absolute;
+    display: none;
+  }
+  .radio-label
+    .formbold-input-radio:checked
+    ~ .formbold-radio-checkmark:after {
+    display: block;
+  }
+  .radio-label input[type="radio"][name="tipo"][value="vara"]:checked ~ .radio-checkmark:after {
+    display: block;
+    background-color: #6a64f1;
+  }
+  .radio-label .formbold-radio-checkmark:after {
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ffffff;
+    transform: translate(-50%, -50%);
+  }
+
+  .form-input {
+    width: 100%;
+    padding: 13px 22px;
+    border-radius: 5px;
+    border: 1px solid #dde3ec;
+    background: #ffffff;
+    font-weight: 500;
+    font-size: 16px;
+    color: #07074d;
+    outline: none;
+    resize: none;
+  }
+  .form-input::placeholder {
+    color: #536387;
+  }
+  .form-input:focus {
+    border-color: #6a64f1;
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+  .form-label {
+    color: #07074d;
+    font-size: 14px;
+    line-height: 24px;
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .btn {
+    text-align: center;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 14px 25px;
+    border: none;
+    font-weight: 500;
+    background-color: #267fdd;
+    color: white;
+    cursor: pointer;
+    margin-top: 25px;
+  }
+  .btn:hover {
+    box-shadow: 0px 3px 8px rgba(0, 0, 0, 0.05);
+  }
+  .navbar {
+  width: 100%;
+  background-color: #555;
+  overflow: auto;
+  }
+
+
+   @import url("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css");
+  .menu, .menu-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      z-index:10;
+      overflow:hidden;
+      box-shadow: 2px 0 18px rgba(0, 0, 0, 0.26);
+  }
+  .menu li a{
+    display: inline-block;
+    text-indent: -500em;
+    height: 5em;
+    width: 5em;
+    line-height: 5em;
+    text-align:center;
+    color: #72739f;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background 0.1s ease-in-out;
+  }
+  .menu li a:before {
+    font-family: FontAwesome;
+    speak: none;
+    text-indent: 0em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 1.4em;
+  }
+  .menu li a.home:before {
+    content: "\f039";
+  }
+  .menu-bar li a:hover,
+  .menu li a:hover,
+  .menu li:first-child a {
+    background: #267fdd;
+    color: #fff;
+  }
+  .menu-bar{
+      overflow:hidden;
+      left:5em;
+      z-index:5;
+      width:0;
+      height:0;
+      transition: all 0.1s ease-in-out;
+  }
+  .menu-bar li a{
+    display: block;
+    height: 4em;
+    line-height: 4em;
+    text-align:center;
+    color: #72739f;
+    text-decoration:none;
+    position: relative;
+    font-family:verdana;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background 0.1s ease-in-out;
+  }
+  .menu-bar li:first-child a{
+      height:5em;
+      background: #267fdd;
+      color: #fff;
+      line-height:5
+  }
+  .para{
+      color:#033f72;
+      padding-left:100px;
+      font-size:3em;
+      margin-bottom:20px;
+  }
+  .open{
+      width:20em;
+      height:100%;
+  }
+  /*Modo responsivo*/
+  @media all and (max-width: 500px) {
+      .container{
+          margin-top:100px;
+      }
+      .menu{
+          height:5em;
+          width:100%;
+      }
+      .menu li{
+          display:inline-block;
+      }
+      .menu-bar li a{
+          width:100%;
+      }
+      .menu-bar{
+          width:100%;
+          left:0;
+        bottom: 0;
+          height:0;
+      }
+      .open{
+          width:100%;
+          height:auto;
+      }
+      .para{
+      padding-left:5px;
+  }
+  }
+  @media screen and (max-height: 34em){
+    .menu li,
+    .menu-bar {
+      font-size:70%;
+    }
+  }
+  @media screen and (max-height: 34em) and (max-width: 500px){
+    .menu{
+          height:3.5em;
+      }
+  }
+  /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+  @media screen and (max-width: 500px) {
+    .navbar a {
+      float: none;
+      display: block;
+    }
+  }
+</style>
+</body>
+</html>

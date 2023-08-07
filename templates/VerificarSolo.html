@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <ul class="menu">
+
+    <li title="home"><a href="#" class="menu-button home">menu</a></li>
+  </ul>
+  <ul class="menu-bar">
+      <li><a href="http://127.0.0.1:5000/" class="menu-button">Menu</a></li>
+      <li><a href="http://127.0.0.1:5000/homogénio">Solo Homogénio</a></li>
+      <li><a href="http://127.0.0.1:5000/home">Verificar Solo</a></li>
+  </ul>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+      $(document).ready(function(){
+        $(".menu-button").click(function(){
+            $(".menu-bar").toggleClass("open");
+        });
+    });
+  </script>
+  <div class = "result">
+    <p style="display: inline-block">{{texto}}</p>
+    <p></p>
+    <p style="display: inline-block">{{texto2}}</p>
+    <p></p>
+    <p style="display: inline-block">{{texto3}}</p>
+
+  </div>
+  <div class="main-wrapper">
+    <div class="form-wrapper">
+      <p style="font-size: 40px">Verificar se o solo é Homogénio</p>
+      <form action="/verificarsolo" method="POST" onsubmit="return validarform()">
+        <div class="input-group">
+          <label style ="margin-top: 40px" for="profundidade1" for="resistividade1" class="form-label"> Primeira Medida: </label>
+          <input
+            type="text"
+            name="profundidade1"
+            id="profundidade1"
+            placeholder="Profundidade em metros"
+            class="form-input"
+          />
+          <input
+            type="text"
+            name="resistividade1"
+            id="resistividade1"
+            placeholder="Resistividade em ohms"
+            class="form-input"
+          />
+
+          <label style ="margin-top: 40px" for="profundidade2" for="resistividade2" class="form-label"> Segunda Medida: </label>
+          <input
+            type="text"
+            name="profundidade2"
+            id="profundidade2"
+            placeholder="Profundidade em metros"
+            class="form-input"
+          />
+          <input
+            type="text"
+            name="resistividade2"
+            id="resistividade2"
+            placeholder="Resistividade em ohms"
+            class="form-input"
+          />
+
+          <label style ="margin-top: 40px" for="profundidade3" for="resistividade3" class="form-label"> Terceira Medida: </label>
+          <input
+            type="text"
+            name="profundidade3"
+            id="profundidade3"
+            placeholder="Profundidade em metros"
+            class="form-input"
+          />
+          <input
+            type="text"
+            name="resistividade3"
+            id="resistividade3"
+            placeholder="Resistividade em ohms"
+            class="form-input"
+          />
+
+          <label style ="margin-top: 40px" for="profundidade4" for="resistividade4" class="form-label"> Quarta Medida: </label>
+          <input
+            type="text"
+            name="profundidade4"
+            id="profundidade4"
+            placeholder="Profundidade em metros"
+            class="form-input"
+          />
+          <input
+            type="text"
+            name="resistividade4"
+            id="resistividade4"
+            placeholder="Resistividade em ohms"
+            class="form-input"
+          />
+        </div>
+        <div>
+          <button class="btn">Verificar</button>
+          <button type="reset" class="btn">Limpar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <!-- Uso o javascript de forma a tornar mais fácil as validações na aplicação web -->
+  <script>
+    function validarform(){
+      var input = document.querySelectorAll('input[type="text"]');
+      for(var i = 0; i < input.length; i++){
+        if(input[i].value === "") {
+          alert("Por favor preencha todos campos");
+          return false;
+        }
+      }
+
+      var inputpermitido = /^[0-9]+(\.[0-9]+)?$/;
+      for(var j = 0; j < input.length; j++){
+        if(!inputpermitido.test(input[j].value)){
+          alert("Introduza somente números");
+          return false;
+        }
+      }
+      return true;
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .result {
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      font-size: 16px;
+      border: none;
+      font-weight: 600;
+      margin-top: 90px;
+      margin-bottom: 60px;
+    }
+    .main-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      margin-left: 300px;
+    }
+    .form-wrapper {
+      margin: 0 auto;
+      max-width: 1000px;
+      width: 100%;
+      background: white;
+      padding: 20px;
+    }
+    .input-group {
+      margin-bottom: 18px;
+    }
+    .form-input {
+      width: 70%;
+      padding: 13px 22px;
+      border-radius: 5px;
+      border: 1px solid #dde3ec;
+      background: #ffffff;
+      font-weight: 500;
+      font-size: 16px;
+      color: #07074d;
+      outline: none;
+      resize: none;
+    }
+
+    .form-label {
+      color: #07074d;
+      font-size: 14px;
+      line-height: 24px;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .btn {
+      text-align: center;
+      width: 20%;
+      font-size: 16px;
+      padding: 14px 25px;
+      border: none;
+      font-weight: 600;
+      background-color: #267fdd;
+      color: white;
+      cursor: pointer;
+    }
+
+    @import url("//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.0.3/css/font-awesome.min.css");
+  .menu, .menu-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      height: 100%;
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      background: #f7f7f7;
+      z-index:10;
+      overflow:hidden;
+      box-shadow: 2px 0 18px rgba(0, 0, 0, 0.26);
+  }
+  .menu li a{
+    display: inline-block;
+    text-indent: -500em;
+    height: 5em;
+    width: 5em;
+    line-height: 5em;
+    text-align:center;
+    color: #72739f;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background 0.1s ease-in-out;
+  }
+  .menu li a:before {
+    font-family: FontAwesome;
+    speak: none;
+    text-indent: 0em;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    font-size: 1.4em;
+  }
+  .menu li a.home:before {
+    content: "\f039";
+  }
+  .menu-bar li a:hover,
+  .menu li a:hover,
+  .menu li:first-child a {
+    background: #267fdd;
+    color: #fff;
+  }
+  .menu-bar{
+      overflow:hidden;
+      left:5em;
+      z-index:5;
+      width:0;
+      height:0;
+      transition: all 0.1s ease-in-out;
+  }
+  .menu-bar li a{
+    display: block;
+    height: 4em;
+    line-height: 4em;
+    text-align:center;
+    color: #72739f;
+    text-decoration:none;
+    position: relative;
+    font-family:verdana;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    transition: background 0.1s ease-in-out;
+  }
+  .menu-bar li:first-child a{
+      height:5em;
+      background: #267fdd;
+      color: #fff;
+      line-height:5
+  }
+  .para{
+      color:#033f72;
+      padding-left:100px;
+      font-size:3em;
+      margin-bottom:20px;
+  }
+  .open{
+      width:20em;
+      height:100%;
+  }
+  /*Modo responsivo*/
+  @media all and (max-width: 500px) {
+      .container{
+          margin-top:100px;
+      }
+      .menu{
+          height:5em;
+          width:100%;
+      }
+      .menu li{
+          display:inline-block;
+      }
+      .menu-bar li a{
+          width:100%;
+      }
+      .menu-bar{
+          width:100%;
+          left:0;
+        bottom: 0;
+          height:0;
+      }
+      .open{
+          width:100%;
+          height:auto;
+      }
+      .para{
+      padding-left:5px;
+  }
+  }
+  @media screen and (max-height: 34em){
+    .menu li,
+    .menu-bar {
+      font-size:70%;
+    }
+  }
+  @media screen and (max-height: 34em) and (max-width: 500px){
+    .menu{
+          height:3.5em;
+      }
+  }
+    .navbar {
+    width: 100%;
+    background-color: #555;
+    overflow: auto;
+    }
+
+    /* Navbar links */
+    .navbar a {
+      float: left;
+      text-align: center;
+      padding: 12px;
+      color: white;
+      text-decoration: none;
+      font-size: 17px;
+    }
+
+    /* Navbar links on mouse-over */
+    .navbar a:hover {
+      background-color: #000;
+    }
+
+    /* Current/active navbar link */
+    .active {
+      background-color: #04AA6D;
+    }
+
+    /* Add responsiveness - will automatically display the navbar vertically instead of horizontally on screens less than 500 pixels */
+    @media screen and (max-width: 500px) {
+      .navbar a {
+        float: none;
+        display: block;
+      }
+    }
+  </style>
+</body>
+</html>
